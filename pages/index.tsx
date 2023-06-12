@@ -35,6 +35,9 @@ const CalculatorHeader = () => (
 /* NOTE Leaving all my notes Here
 
 1. First check im doing after installing dependencies is checking which calculations actually work.
-2. Multi
-
+2. Multiplication on lower number works but seems to be giving trouble when multiplying higher numbers.
+3. When multiplying 1*1000 receive error **Octal literals are not allowed on strict mode. coming from context\calculatorProvider.tsx under setValue(`${eval(formula)}`).  may be interpolated wrong?
+4. Continued testing of calculator. 500*500 & 999*999 gives correct outcome so it seems to have a problem when one value is higher than 1000.
+5. Continued testing calculator. Can string together calculations up until you try to string 1000.
+6. other operators are not working above 1000 either
 */
