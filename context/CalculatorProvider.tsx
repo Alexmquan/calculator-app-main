@@ -78,14 +78,15 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     if (!expression.length) {
       return;
     }
-
-    const fixedExpression = expression.replace(/x/g, "*");
+    // NOTE added second .replace as the comma was not being recognized.
+    const fixedExpression = expression.replace(/x/g, "*").replace(/,/, "");
 
     const formula = numberWasPressed
       ? `${fixedExpression}${value}`
       : fixedExpression.slice(0, -1);
 
     setNumberWasPressed(false);
+    console.log("[Checking formula]", formula);
 
     setValue(`${eval(formula)}`);
   };

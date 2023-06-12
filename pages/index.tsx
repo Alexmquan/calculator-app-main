@@ -40,4 +40,10 @@ const CalculatorHeader = () => (
 4. Continued testing of calculator. 500*500 & 999*999 gives correct outcome so it seems to have a problem when one value is higher than 1000.
 5. Continued testing calculator. Can string together calculations up until you try to string 1000.
 6. other operators are not working above 1000 either
+7. Created bug report.
+8. Calculator is removing any input after 3 numbers. 4200 is calculating as if it was 200 so 4200 + 4 = 204.
+9. May be a regex error with formatting input past 3rd digit.
+10. Ran a console.log on formula before value is set. Discovered Formula still has comma in it.
+11. Added second regex .replace on fixed expression to replace comma with "".
+12. Issue was that a comma is NaN and was being inserted into calculations causing failure.
 */
