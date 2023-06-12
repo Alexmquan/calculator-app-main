@@ -23,6 +23,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
   const [value, setValue] = useState("0");
   const [operatorWasPressed, setOperatorWasPressed] = useState(false);
   const [numberWasPressed, setNumberWasPressed] = useState(false);
+  const [history, setHistory] = useState([]);
 
   const handleKeysState = (keyValue: KeyType) => {
     switch (keyValue) {
@@ -86,9 +87,27 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
       : fixedExpression.slice(0, -1);
 
     setNumberWasPressed(false);
-    console.log("[Checking formula]", formula);
 
     setValue(`${eval(formula)}`);
+    // FIXME remove setFormula
+    addToHistory(formula);
+
+    function addToHistory(formula) {
+      const calc = formula + "=" + `${eval(formula)}`;
+      const newArr = [calc];
+
+      setHistory((prevHistory) => {
+        if (prevHistory.length > 4) {
+          prevHistory.splice(0, 1);
+        }
+        return prevHistory.concat(newArr);
+      });
+    }
+
+    // const newNum = eval(formula);
+
+    // console.log("[Checking formula]", formula);
+    // console.log("[Checking newNum]", newNum);
   };
 
   const handleKeyPress = (keyValue: KeyType) => {
@@ -135,8 +154,15 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     }
   };
 
+  // const context = {
+  //   favorites: history,
+  //   addHistory,
+  // };
+
   return (
-    <CalculatorContext.Provider value={{ expression, value, handleKeyPress }}>
+    <CalculatorContext.Provider
+      value={{ expression, value, history, handleKeyPress }}
+    >
       {children}
     </CalculatorContext.Provider>
   );
