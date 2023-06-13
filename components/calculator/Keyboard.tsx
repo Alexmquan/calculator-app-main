@@ -7,7 +7,7 @@ import { KeyType } from "types";
 
 const Keyboard = () => {
   return (
-    <section className="h-[55vh] min-h-[340px] max-h-[480px] grid grid-cols-4 gap-4 sm:gap-[2.5vh] p-4 sm:p-6 bg-skin-keypad w-full rounded-xl">
+    <section className="xl:h-[55vh] min-h-[340px] max-h-[480px] grid grid-cols-4 gap-4 sm:gap-[2.5vh] p-4 sm:p-6 bg-skin-keypad w-full rounded-xl">
       {KEY_VALUES.map((value, index) => (
         <Key key={index} value={value} />
       ))}

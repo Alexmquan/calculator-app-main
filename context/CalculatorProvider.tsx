@@ -5,6 +5,7 @@ import { KeyType } from "types";
 interface ICalculatorContext {
   expression: string;
   value: string;
+  history: any[];
   handleKeyPress: (_keyValue: KeyType) => void;
 }
 
@@ -82,14 +83,21 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     // NOTE added second .replace as the comma was not being recognized.
     const fixedExpression = expression.replace(/x/g, "*").replace(/,/, "");
 
+    // NOTE added .replace after computed formula so calculations work past one million
     const formula = numberWasPressed
-      ? `${fixedExpression}${value}`
+      ? `${fixedExpression}${value}`.replace(/,/, "")
       : fixedExpression.slice(0, -1);
 
     setNumberWasPressed(false);
 
+    // const newFormula = formula.replace(/,/, "");
+
+    // const newNum = eval(formula);
+    console.log("[Checking formula]", formula);
+    // console.log("[Checking newNum]", newNum);
+
     setValue(`${eval(formula)}`);
-    // FIXME remove setFormula
+
     addToHistory(formula);
 
     function addToHistory(formula) {
@@ -103,11 +111,6 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
         return prevHistory.concat(newArr);
       });
     }
-
-    // const newNum = eval(formula);
-
-    // console.log("[Checking formula]", formula);
-    // console.log("[Checking newNum]", newNum);
   };
 
   const handleKeyPress = (keyValue: KeyType) => {
@@ -153,11 +156,6 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
         handleNumericKeyPress(keyValue);
     }
   };
-
-  // const context = {
-  //   favorites: history,
-  //   addHistory,
-  // };
 
   return (
     <CalculatorContext.Provider
