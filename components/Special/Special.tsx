@@ -3,28 +3,28 @@ import icon from "./open_icon.svg";
 import OpenIcon from "../icons/open-icon";
 
 const Special = () => {
-  const { special } = useCalculatorContext();
+  const { special, rules } = useCalculatorContext();
+  let displayText = ["Calculate the best MOS for a surprise!", "1"];
 
-  function Message() {
-    console.log("test");
-    return (
-      <div>
-        <h1>Test</h1>
-      </div>
-    );
+  if (rules) {
+    displayText = rules;
+    console.log(displayText);
   }
 
   return (
     <div className=" px-2 my-3">
-      <div className="flex items-center">
-        <div className="rounded-full bg-skin-screen text-skin-switcher p-2">
+      <div className="flex items-center text-skin-switcher flex-column">
+        <div className="rounded-full bg-skin-screen  p-2 mb-4">
           <OpenIcon />
         </div>
-
-        <h1 className="px-2">Calculate the best MOS for a surprise!</h1>
       </div>
+      {displayText.map((d) => (
+        <h1 key={d} className="px-2">
+          {d}
+        </h1>
+      ))}
 
-      <img src={special} alt="" />
+      {/* <img src={special} alt="" /> */}
     </div>
   );
 };

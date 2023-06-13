@@ -18,14 +18,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main className="w-full min-h-[inherit] flex justify-center items-center grid xl:grid-cols-3 font-spartan bg-skin-main transition-all duration-200 ease-in-out">
-        <div className="">
+        <div>
           <Special />
         </div>
-        <div className="md:pb-3 xl:pb-0 flex flex-col w-11/12 sm:min-w-[350px] sm:w-[65vh] max-w-[550px]">
+        <div className="md:pb-3 xl:pb-0 flex flex-col w-12/12 sm:min-w-[350px] sm:w-[65vh] max-w-[550px]">
           <CalculatorHeader />
           <Calculator />
         </div>
-        <div className="mt-4">
+        <div className="my-4">
           <History />
         </div>
       </main>
@@ -56,6 +56,7 @@ const CalculatorHeader = () => (
 12. Issue was that a comma is NaN and was being inserted into calculations causing failure.
 13. Discovered bug is still an issue at numbers higher than 1 million.
 14. Added another regex expression on formula so entire output is checked for commas.
+15. Refactored bug fix. Only needed one of the regex expressions.
 
 Adding History
 1. Created History Component/file.
