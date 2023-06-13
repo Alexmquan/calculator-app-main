@@ -93,7 +93,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     addToHistory(formula);
 
     function addToHistory(formula) {
-      const calc = formula + "=" + `${eval(formula)}`;
+      const calc = formula + " = " + `${eval(formula)}`;
       const newArr = [calc];
 
       setHistory((prevHistory) => {

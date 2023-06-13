@@ -1,4 +1,5 @@
 import { useCalculatorContext } from "context";
+import classes from "./history.module.css";
 
 const History = () => {
   const { history } = useCalculatorContext();
@@ -6,16 +7,23 @@ const History = () => {
   // const newFormula = formula;
   // const result = eval(newFormula);
 
-  const states = [history];
+  const states = history;
 
-  const AddToHistory = (formula, result) => {};
+  const updatedHistory = states.map((m) => {
+    <div>{m}</div>;
+  });
+  console.log("[states]", states);
+
+  // const AddToHistory = (formula, result) => {};
 
   return (
-    <div>
-      <div>
-        <h1>{states}</h1>
-      </div>
-      <div></div>
+    <div className="bg-skin-screen text-skin-switcher p-4 w-60 rounded-xl ">
+      <h1 className="mb-3 text-3xl">History</h1>
+      {states.map((s) => (
+        <div className="" key={s}>
+          {s}
+        </div>
+      ))}
     </div>
   );
 };
