@@ -25,7 +25,7 @@ export default function Home() {
           <CalculatorHeader />
           <Calculator />
         </div>
-        <div className="my-4">
+        <div className="my-4 flex justify-center">
           <History />
         </div>
       </main>

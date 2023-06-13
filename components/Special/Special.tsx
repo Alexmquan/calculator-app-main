@@ -4,12 +4,6 @@ import OpenIcon from "../icons/open-icon";
 
 const Special = () => {
   const { special, rules } = useCalculatorContext();
-  let displayText = ["Calculate the best MOS for a surprise!", "1"];
-
-  if (rules) {
-    displayText = rules;
-    console.log(displayText);
-  }
 
   return (
     <div className=" px-2 my-3">
@@ -18,8 +12,8 @@ const Special = () => {
           <OpenIcon />
         </div>
       </div>
-      {displayText.map((d) => (
-        <h1 key={d} className="px-2">
+      {rules.map((d) => (
+        <h1 key={d} className="px-2 text-skin-switcher">
           {d}
         </h1>
       ))}
