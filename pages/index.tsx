@@ -50,10 +50,13 @@ const CalculatorHeader = () => (
 10. Ran a console.log on formula before value is set. Discovered Formula still has comma in it.
 11. Added second regex .replace on fixed expression to replace comma with "".
 12. Issue was that a comma is NaN and was being inserted into calculations causing failure.
+13. Discovered bug is still an issue at numbers higher than 1 million.
+14. Added another regex expression on formula so entire output is checked for commas.
 
 Adding History
 1. Created History Component/file.
 2. Added history state in calculator provider
 3. Created setter function that concats last formula onto history.
 4. added conditionals so max history is 5
+5. Added styling and made mobile friendly
 */
