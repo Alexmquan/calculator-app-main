@@ -3,6 +3,7 @@ import Head from "next/head";
 import { ThemeSwitcher } from "components";
 import { Calculator } from "components/calculator";
 import { History } from "components/History";
+import { Special } from "components/Special";
 
 export default function Home() {
   return (
@@ -17,13 +18,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main className="w-full min-h-[inherit] flex justify-center items-center grid xl:grid-cols-3 font-spartan bg-skin-main transition-all duration-200 ease-in-out">
-        <div></div>
+        <div className="">
+          <Special />
+        </div>
         <div className="md:pb-3 xl:pb-0 flex flex-col w-11/12 sm:min-w-[350px] sm:w-[65vh] max-w-[550px]">
           <CalculatorHeader />
           <Calculator />
         </div>
-
-        <History />
+        <div className="mt-4">
+          <History />
+        </div>
       </main>
     </>
   );

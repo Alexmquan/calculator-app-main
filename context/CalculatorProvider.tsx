@@ -1,4 +1,11 @@
-import { createContext, FC, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  FC,
+  ReactNode,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 
 import { KeyType } from "types";
 
@@ -6,6 +13,7 @@ interface ICalculatorContext {
   expression: string;
   value: string;
   history: any[];
+  special: string;
   handleKeyPress: (_keyValue: KeyType) => void;
 }
 
@@ -25,6 +33,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
   const [operatorWasPressed, setOperatorWasPressed] = useState(false);
   const [numberWasPressed, setNumberWasPressed] = useState(false);
   const [history, setHistory] = useState([]);
+  const [special, setSpecial] = useState("");
 
   const handleKeysState = (keyValue: KeyType) => {
     switch (keyValue) {
@@ -90,13 +99,16 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
 
     setNumberWasPressed(false);
 
-    // const newFormula = formula.replace(/,/, "");
-
-    // const newNum = eval(formula);
-    console.log("[Checking formula]", formula);
-    // console.log("[Checking newNum]", newNum);
+    // console.log("[Checking formula]", formula);
 
     setValue(`${eval(formula)}`);
+
+    if (`${eval(formula)}` == "2821") {
+      setSpecial(
+        "https://www.hardchargertrainingcenter.com/wp-content/uploads/2018/10/United_States_Marine_Corps_Flag1.gif"
+      );
+      console.log("rah");
+    }
 
     addToHistory(formula);
 
@@ -159,7 +171,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
 
   return (
     <CalculatorContext.Provider
-      value={{ expression, value, history, handleKeyPress }}
+      value={{ expression, value, history, special, handleKeyPress }}
     >
       {children}
     </CalculatorContext.Provider>
