@@ -140,7 +140,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     setNumberWasPressed(false);
 
     const solution = `${eval(formula)}`;
-    setValue(`${eval(formula)}`);
+    setValue(solution);
 
     if (solution == "2821") {
       gameStart(true);
