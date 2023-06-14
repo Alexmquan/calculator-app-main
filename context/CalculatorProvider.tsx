@@ -14,7 +14,6 @@ interface ICalculatorContext {
   value: string;
   history: any[];
   game: boolean;
-  rules: any[];
   cards: object;
   score: object;
   handleKeyPress: (_keyValue: KeyType) => void;
@@ -39,9 +38,6 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
 
   const [history, setHistory] = useState([]);
   const [game, gameStart] = useState(false);
-  const [rules, setRules] = useState([
-    "Calculate the best MOS for a surprise!",
-  ]);
   const [cards, setCards] = useState({ first: 0, second: 0 });
   const [score, setScore] = useState({ wins: 0, losses: 0, ties: 0 });
 
@@ -132,7 +128,10 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     const solution = `${eval(formula)}`;
     setValue(`${eval(formula)}`);
 
-    CheckForGame(solution, gameStart, setValue, setRules);
+    if (solution == "2821") {
+      gameStart(true);
+      setValue("Let Play!");
+    }
     // NOTE History logic
     addToHistory(formula);
 
@@ -202,7 +201,6 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
           handleOperatorKeyPress(keyValue);
           return;
         case "del":
-          setRules(["Calculate the best MOS for a surprise!"]);
           setValue("0");
           gameStart(false);
           setScore({ wins: 0, losses: 0, ties: 0 });
@@ -272,7 +270,6 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
         value,
         history,
         game,
-        rules,
         cards,
         score,
         handleKeyPress,
@@ -292,27 +289,5 @@ const countOperators = (expression: string) =>
     );
 
 const useCalculatorContext = () => useContext(CalculatorContext);
-
-function CheckForGame(solution: any, gameStart, setValue, setRules) {
-  if (solution == "2821") {
-    gameStart(true);
-    setValue("Let Play!");
-    // NOTE may change to object with key value pairs title: "welcome to..." for easier manipulation.
-    setRules([
-      "Welcome to High Card - Low Card!",
-      "--------------------------------",
-      "Here are the rules:",
-      "1. I will show you a card and you choose if the next card drawn will be higher (+) or lower (-).",
-      "2. If you guess correctly you win!",
-      "---------------------------------",
-      "Game Controls:",
-      '"RESET" Starts new game',
-      '"+ or -" Guesses if next card is higher or lower than last card',
-      '"DELETE" Exits game back to calculator',
-      "----------------------------------",
-      "Have Fun!",
-    ]);
-  }
-}
 
 export { CalculatorProvider, useCalculatorContext };
