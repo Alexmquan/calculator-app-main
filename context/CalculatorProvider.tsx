@@ -122,7 +122,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     if (!game) {
       return CalculatorMode(keyValue);
     }
-    // SECTION Game logic
+
     handleGame(keyValue);
   };
 
@@ -223,8 +223,6 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
         case "reset":
           gameIsSet(true);
           setCards({
-            // first: Math.ceil(Math.random() * 10),
-            // second: Math.ceil(Math.random() * 10),
             first: allCards.indexOf(
               allCards[Math.floor(Math.random() * allCards.length)]
             ),
