@@ -1,5 +1,4 @@
 import { useCalculatorContext } from "context";
-import classes from "./history.module.css";
 
 const History = () => {
   const { history } = useCalculatorContext();
@@ -9,7 +8,7 @@ const History = () => {
       <h1 className="mb-3 text-3xl">
         <u>History</u>
       </h1>
-      {history.map((s) => <div key={s}>{s}</div>).reverse()}
+      <div>{history.map((s, i) => <div key={i}>{s}</div>).reverse()}</div>
     </div>
   );
 };

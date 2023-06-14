@@ -4,6 +4,7 @@ import { ThemeSwitcher } from "components";
 import { Calculator } from "components/calculator";
 import { History } from "components/History";
 import { Special } from "components/Special";
+import { Parent } from "components/History/Parent";
 
 export default function Home() {
   return (
@@ -21,12 +22,12 @@ export default function Home() {
         <div>
           <Special />
         </div>
-        <div className="md:pb-3 xl:pb-0 flex flex-col w-12/12 sm:min-w-[350px] sm:w-[65vh] max-w-[550px]">
+        <div className="md:pb-3 xl:pb-0 flex flex-col w-12/12 sm:min-w-[350px] sm:w-[65vh] max-w-[550px] xs:mx-3">
           <CalculatorHeader />
           <Calculator />
         </div>
         <div className="my-4 flex justify-center">
-          <History />
+          <Parent />
         </div>
       </main>
     </>

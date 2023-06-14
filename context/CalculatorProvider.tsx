@@ -16,6 +16,7 @@ interface ICalculatorContext {
   game: boolean;
   rules: any[];
   cards: object;
+  score: object;
   handleKeyPress: (_keyValue: KeyType) => void;
 }
 
@@ -37,21 +38,21 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
   const [numberWasPressed, setNumberWasPressed] = useState(false);
 
   const [history, setHistory] = useState([]);
-
   const [game, gameStart] = useState(false);
   const [rules, setRules] = useState([
     "Calculate the best MOS for a surprise!",
   ]);
   const [cards, setCards] = useState({ first: 0, second: 0 });
+  const [score, setScore] = useState({ wins: 0, losses: 0, ties: 0 });
 
   useEffect(() => {
     console.log("the cards", cards);
     if (cards.first) {
       setValue(
-        "First Card - [ " +
+        "First Card - [" +
           cards.first +
           suits[Math.floor(Math.random() * suits.length)] +
-          " ]"
+          "]"
       );
     }
   }, [cards]);
@@ -128,8 +129,8 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     setNumberWasPressed(false);
 
     console.log("[Checking formula]", formula);
-    const solution = eval(formula);
-    setValue(solution);
+    const solution = `${eval(formula)}`;
+    setValue(`${eval(formula)}`);
 
     CheckForGame(solution, gameStart, setValue, setRules);
     // NOTE History logic
@@ -192,7 +193,6 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
       }
     }
 
-    // NOTE game logic
     if (game) {
       switch (keyValue) {
         case "+":
@@ -205,27 +205,13 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
           setRules(["Calculate the best MOS for a surprise!"]);
           setValue("0");
           gameStart(false);
+          setScore({ wins: 0, losses: 0, ties: 0 });
           return;
-
         case "reset":
-          // FIXME change suit, maybe remove suit
-          console.log("[reset test]");
           setCards({
             first: Math.ceil(Math.random() * 10),
             second: Math.ceil(Math.random() * 10),
           });
-
-          console.log("[keyValue]", keyValue, cards.first, cards.second);
-          // if (Number(firstCard) > 0) console.log("number was set", firstCard);
-          // if (Number(secondCard) > 0) console.log("number was set", secondCard);
-          // setValue("0");
-          // setValue(
-          //   "First Card - [" +
-          //     cards.first +
-          //     suits[Math.floor(Math.random() * suits.length)] +
-          //     "]"
-          // );
-
           return;
       }
     }
@@ -237,14 +223,17 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
 
     function loseMessage() {
       setValue("You Lose :(");
+      score.losses++;
       return;
     }
     function winMessage() {
       setValue("You Win!!!");
+      score.wins++;
       return;
     }
     function drawMessage() {
-      setValue("Its a draw :(");
+      setValue("Its a draw :/");
+      score.ties++;
       return;
     }
 
@@ -258,15 +247,13 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
       return;
     }
 
-    // FIXME must figure out what to do in off cases.
     if (keyValue == "+" && Number(firstCard) < Number(secondCard)) {
       setSecondCardValue();
       setTimeout(winMessage, 1800);
     } else if (keyValue == "+" && Number(firstCard) > Number(secondCard)) {
       setSecondCardValue();
       setTimeout(loseMessage, 1800);
-      // FIXME can probably remove one draw function and remove keyValue of remaining one
-    } else if (keyValue == "+" && Number(firstCard) == Number(secondCard)) {
+    } else if (Number(firstCard) == Number(secondCard)) {
       setSecondCardValue();
       setTimeout(drawMessage, 1800);
     } else if (keyValue == "-" && Number(firstCard) < Number(secondCard)) {
@@ -275,9 +262,6 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     } else if (keyValue == "-" && Number(firstCard) > Number(secondCard)) {
       setSecondCardValue();
       setTimeout(winMessage, 1800);
-    } else if (keyValue == "-" && Number(firstCard) == Number(secondCard)) {
-      setSecondCardValue();
-      setTimeout(drawMessage, 1800);
     }
   }
 
@@ -290,6 +274,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
         game,
         rules,
         cards,
+        score,
         handleKeyPress,
       }}
     >

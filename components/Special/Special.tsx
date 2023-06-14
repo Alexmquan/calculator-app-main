@@ -1,9 +1,8 @@
 import { useCalculatorContext } from "context";
-import icon from "./open_icon.svg";
 import OpenIcon from "../icons/open-icon";
 
 const Special = () => {
-  const { special, rules } = useCalculatorContext();
+  const { rules } = useCalculatorContext();
 
   return (
     <div className=" px-2 my-3">
@@ -12,8 +11,8 @@ const Special = () => {
           <OpenIcon />
         </div>
       </div>
-      {rules.map((d) => (
-        <h1 key={d} className="px-2 text-skin-switcher">
+      {rules.map((d, i) => (
+        <h1 key={i} className="px-2 text-skin-switcher">
           {d}
         </h1>
       ))}
