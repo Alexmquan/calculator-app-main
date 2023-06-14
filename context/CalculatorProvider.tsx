@@ -29,6 +29,21 @@ interface ICalculatorProviderProps {
 
 const operators = ["+", "-", "/", "x"];
 const suits = ["♠", "♥", "♦", "♣"];
+const allCards = [
+  "A",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "J",
+  "Q",
+  "K",
+];
 
 const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
   const [expression, setExpression] = useState("");
@@ -46,7 +61,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     if (cards.first) {
       setValue(
         "First Card - [" +
-          cards.first +
+          allCards[cards.first] +
           suits[Math.floor(Math.random() * suits.length)] +
           "]"
       );
@@ -208,8 +223,14 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
         case "reset":
           gameIsSet(true);
           setCards({
-            first: Math.ceil(Math.random() * 10),
-            second: Math.ceil(Math.random() * 10),
+            // first: Math.ceil(Math.random() * 10),
+            // second: Math.ceil(Math.random() * 10),
+            first: allCards.indexOf(
+              allCards[Math.floor(Math.random() * allCards.length)]
+            ),
+            second: allCards.indexOf(
+              allCards[Math.floor(Math.random() * allCards.length)]
+            ),
           });
           return;
       }
@@ -236,7 +257,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     function setSecondCardValue() {
       setValue(
         "Second Card - [" +
-          cards.second +
+          allCards[cards.second] +
           suits[Math.floor(Math.random() * suits.length)] +
           "]"
       );
