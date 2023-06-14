@@ -25,13 +25,6 @@ const Rules = () => {
         <h2>----------------------------------</h2>
         <h2>Have Fun!</h2>
       </div>
-      {/* {rules.map((d, i) => (
-        <h1 key={i} className="px-2 text-skin-switcher">
-          {d}
-        </h1>
-      ))} */}
-
-      {/* <img src={special} alt="" /> */}
     </div>
   );
 };

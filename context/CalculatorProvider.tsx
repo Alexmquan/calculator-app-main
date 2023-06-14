@@ -40,9 +40,9 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
   const [game, gameStart] = useState(false);
   const [cards, setCards] = useState({ first: 0, second: 0 });
   const [score, setScore] = useState({ wins: 0, losses: 0, ties: 0 });
+  const [gameSet, gameIsSet] = useState(false);
 
   useEffect(() => {
-    console.log("the cards", cards);
     if (cards.first) {
       setValue(
         "First Card - [" +
@@ -85,7 +85,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     setValue(parseFloat(`${numericValue}${keyValue}`).toLocaleString());
   };
 
-  const NormalMode = (keyValue: KeyType) => {
+  const CalculatorMode = (keyValue: KeyType) => {
     const numberPressed = numberWasPressed;
     setNumberWasPressed(false);
 
@@ -105,7 +105,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
 
   const handleOperatorKeyPress = (keyValue: KeyType) => {
     if (!game) {
-      return NormalMode(keyValue);
+      return CalculatorMode(keyValue);
     }
     // SECTION Game logic
     handleGame(keyValue);
@@ -124,15 +124,15 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
 
     setNumberWasPressed(false);
 
-    console.log("[Checking formula]", formula);
     const solution = `${eval(formula)}`;
     setValue(`${eval(formula)}`);
 
     if (solution == "2821") {
       gameStart(true);
-      setValue("Let Play!");
+      setValue("Lets Play!");
     }
-    // NOTE History logic
+
+    //NOTE History logic
     addToHistory(formula);
 
     function addToHistory(formula) {
@@ -190,15 +190,15 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
         default:
           handleNumericKeyPress(keyValue);
       }
-    }
-
-    if (game) {
+    } else {
       switch (keyValue) {
         case "+":
         case "-":
-          console.log("[handleKeyPress - + or -/first card]", cards.first);
-          console.log("[handleKeyPress - + or -/second card]", cards.second);
-          handleOperatorKeyPress(keyValue);
+          if (gameSet) {
+            gameIsSet(false);
+            handleOperatorKeyPress(keyValue);
+            return;
+          }
           return;
         case "del":
           setValue("0");
@@ -206,6 +206,7 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
           setScore({ wins: 0, losses: 0, ties: 0 });
           return;
         case "reset":
+          gameIsSet(true);
           setCards({
             first: Math.ceil(Math.random() * 10),
             second: Math.ceil(Math.random() * 10),
@@ -216,9 +217,6 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
   };
 
   function handleGame(keyValue: string) {
-    let firstCard = cards.first;
-    let secondCard = cards.second;
-
     function loseMessage() {
       setValue("You Lose :(");
       score.losses++;
@@ -238,26 +236,26 @@ const CalculatorProvider: FC<ICalculatorProviderProps> = ({ children }) => {
     function setSecondCardValue() {
       setValue(
         "Second Card - [" +
-          secondCard +
+          cards.second +
           suits[Math.floor(Math.random() * suits.length)] +
           "]"
       );
       return;
     }
 
-    if (keyValue == "+" && Number(firstCard) < Number(secondCard)) {
+    if (keyValue == "+" && Number(cards.first) < Number(cards.second)) {
       setSecondCardValue();
       setTimeout(winMessage, 1800);
-    } else if (keyValue == "+" && Number(firstCard) > Number(secondCard)) {
+    } else if (keyValue == "+" && Number(cards.first) > Number(cards.second)) {
       setSecondCardValue();
       setTimeout(loseMessage, 1800);
-    } else if (Number(firstCard) == Number(secondCard)) {
+    } else if (Number(cards.first) == Number(cards.second)) {
       setSecondCardValue();
       setTimeout(drawMessage, 1800);
-    } else if (keyValue == "-" && Number(firstCard) < Number(secondCard)) {
+    } else if (keyValue == "-" && Number(cards.first) < Number(cards.second)) {
       setSecondCardValue();
       setTimeout(loseMessage, 1800);
-    } else if (keyValue == "-" && Number(firstCard) > Number(secondCard)) {
+    } else if (keyValue == "-" && Number(cards.first) > Number(cards.second)) {
       setSecondCardValue();
       setTimeout(winMessage, 1800);
     }
